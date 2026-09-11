@@ -1,0 +1,8 @@
+import { useState } from "react";
+import { generateRoadmap } from "../services/api";
+export default function Roadmap({profile,gap,setPage}) {
+ const [data,setData]=useState(null),[loading,setLoading]=useState(false);
+ const run=async()=>{setLoading(true);try{setData(await generateRoadmap({company:profile.targetCompany,role:profile.targetRole,skills:[...(profile.skillsText||"").split(",").map(x=>x.trim())],cgpa:profile.cgpa,study_hours:profile.studyHours||2}))}finally{setLoading(false)}};
+ return <Page title="Personalized Roadmap" sub="Your plan changes according to the weaknesses detected in your target profile."><button onClick={run} className="rounded-xl bg-blue-500 px-6 py-3 font-semibold">{loading?"Building...":"Generate My Roadmap"}</button>{data&&<div className="mt-7 space-y-4">{data.items.map(([day,title,desc],i)=><div className="glass rounded-2xl p-6 flex gap-5" key={day}><div className="rounded-xl bg-blue-500/10 px-3 py-2 text-sm text-blue-300 h-fit">{i+1}</div><div><p className="text-sm text-slate-500">{day}</p><h2 className="mt-1 text-xl font-semibold">{title}</h2><p className="mt-2 text-slate-400">{desc}</p></div></div>)}<div className="rounded-2xl border border-blue-400/20 bg-blue-500/5 p-5 text-sm text-blue-200">{data.principle}</div><button onClick={()=>setPage("interview")} className="w-full rounded-xl bg-violet-500 px-5 py-3 font-semibold">Practice With Shadow Interview</button></div>}</Page>
+}
+function Page({title,sub,children}){return <div className="min-h-screen p-6 md:p-10"><div className="mx-auto max-w-5xl"><p className="text-sm text-blue-400">PREPARATION ENGINE</p><h1 className="mt-2 text-4xl font-bold">{title}</h1><p className="mt-2 mb-8 text-slate-400">{sub}</p>{children}</div></div>}
