@@ -32,9 +32,8 @@ ai-placement-mentor/
 │   ├── routes/
 │   ├── services/
 │   ├── data/
-│   │   ├── companies/
-│   │   └── roles/
-│   └── uploads/
+│       ├── companies/
+│       └── roles/
 └── frontend/
     ├── package.json
     ├── src/
